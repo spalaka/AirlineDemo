@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!--
+    Solace Web Messaging API for JavaScript
+    Persistence with Queues tutorial - Queue Consumer
+    Demonstrates sending persistent messages to a queue
+-->
+
+<html lang="en">
+
+  <head>
+    <title>Solace Web Messaging API for JavaScript, Persistence with Queues tutorial - Queue Consumer</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet"  href="../../../cssm/jquery.mobile-1.1.0.css" />
+    <link rel="stylesheet"  href="../../../cssm/styles.css" />
+
+    <!-- Load Solace Web Messaging API for JavaScript -->
+    <script src="../../../lib/solclient-debug.js"></script>
+
+    <!-- Load the Persistence with Queues - Queue Consumer  -->
+    <script src="AirlineQueueConsumer.js"></script>
+    <script src="solUIHelper.js"></script>
+    <script src="solPubSubHelper.js"></script>
+
+    <script src="../../../lib/jquery.js"></script>
+    <script src="../../../lib/jquery.mobile-1.1.0.js"></script>
+
+    <!-- Execute the PublishSubscribe Topic Subscriber tutorial -->
+    <script>
+      var passenger = null;
+      var boarding = null;
+      var baggage = null;
+      var loyalty = null;
+      window.onload = function () {
+        // Initialize factory with the most recent API defaults
+        var factoryProps = new solace.SolclientFactoryProperties();
+        factoryProps.profile = solace.SolclientFactoryProfiles.version10;
+        solace.SolclientFactory.init(factoryProps);
+
+        // enable logging to JavaScript console at WARN level
+        // NOTICE: works only with "solclientjs-debug.js"
+        solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
+
+        // create the consumer, specifying name of the queue
+        // subscriber = new QueueConsumer('tutorial/queue');
+        passenger = new AirlineQueueConsumer('Passengers', "ws://mr1u6o37qn544x.messaging.solace.cloud:80", "solace-cloud-client", "9flh068um60qj8okasiqi1se5q", "emirates-singapore");
+        boarding = new AirlineQueueConsumer('Boarding', "ws://mr1u6o37qn544x.messaging.solace.cloud:80", "solace-cloud-client", "9flh068um60qj8okasiqi1se5q", "emirates-singapore");
+        baggage = new AirlineQueueConsumer('Baggage', "ws://mr-1u6o37qn54ah.messaging.solace.cloud:80", "solace-cloud-client", "dac22v8f24390csbvf3rpsod7b", "emirates-paris");
+        loyalty = new AirlineQueueConsumer('Loyalty', "ws://mr1u6o37qn547p.messaging.solace.cloud:80", "solace-cloud-client", "osmk0npjbjt2n7fah4ha86pn66", "emirates-lowa");
+        // if (subscriber1) {
+        //     subscriber1.connectToSolace();
+        // }
+        // assign buttons to the subscriber functions
+        // document.getElementById("connect").addEventListener("click", subscriber.connect);
+        // document.getElementById("disconnect").addEventListener("click", subscriber.disconnect);
+        // document.getElementById("startconsume").addEventListener("click", subscriber.startConsume);
+        // document.getElementById("stopconsume").addEventListener("click", subscriber.stopConsume);
+      };
+      function iframeloaded(){
+        if (subscriber) {
+            //subscriber.connectToSolace();
+        }
+
+
+      };
+
+      function loginReq(){
+
+        sendLoginRq();
+        passenger.connect();
+        boarding.connect();
+        baggage.connect();
+        loyalty.connect();
+        //test();
+        //connect();
+      }
+    </script>
+	<!-- <style>
+        .warning {
+            padding: 5px;
+            border: 1px solid black;
+            background-color: #ff8;
+        }
+        .ie11 {
+            /* Hide instructions that only apply to IE11/Edge */
+            display: none;
+        }
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            .ie11 {
+                /* Show instructions in IE11. If you're trying this sample from the local filesystem,
+                   it's easy to miss the prompt at the bottom of the window. */
+                display: block !important;
+            }
+        }
+	</style> -->
+  </head>
+
+  <body >
+
+  <div data-role="page" id="home" data-theme="a">
+  	<div ata-role="header" class="header" data-theme="a">
+  		<div id="header_image">
+  			<!-- User specific header code will come here-->
+  			<img src='../../../cssm/images/newsolace_sol.png' alt='Exchange Logo' height='100%' width='100%'>
+  		</div>
+  	</div>
+
+  		<div data-role="main" class="ui-content">
+  			<div data-role="collapsibleset" >
+  			  <div data-collapsed="false">
+  				<h3>User Login</h3>
+  					<table cellpadding="2" cellspacing="0" width="40%" align="center">
+  						<tr>
+  							<td width="10%"><label for="userName">Username</label></td>
+  							<td width="10%">
+  								<input type="text" name="username" maxlength="45" value="" id="username" class="txtbox" />
+  								<span class="errorMessage"></span>
+  							</td>
+  						</tr>
+  						<tr>
+  							<td><label for="password">Password</label></td>
+  							<td colspan="1"><input type="password" name="password" maxlength="45" value="" id="password" class="txtbox" />
+  						</td>
+  						</tr>
+  						<tr>
+  						<td colspan="2">
+                <input type="submit" id="save" name="login" value="Login" class="bt" onclick="loginReq()"/>
+                <!-- <button type="button" class="pure-button pure-button-primary" id="connect">Connect</button>
+                <button type="button" class="pure-button button-error" id="disconnect">Disconnect</button> -->
+                <!-- <button type="button" class="pure-button pure-button-primary" id="startconsume">Consume messages </button>
+                <button type="button" class="pure-button button-error" id="stopconsume">Stop consuming</button> -->
+  						</td>
+  						</tr>
+  					</table>
+  			  </div>
+  		  </div>
+  	  </div>
+
+  	</div>
+
+  </div>
+
+  <!--- page:sec_top20_vo -->
+  <div data-role="page" id="sec_top20_vol" data-theme="a" >
+  	<div data-role="header" class="exchangeHeader" data-theme="a">
+
+  		<div id="header_conten"><img src='../../../cssm/images/newsolace_nse.png' alt='Exchnage Logo' height='100%' width='100%' id='exchange-banner'></div>
+  		</div>
+
+  		<div data-role="main" class="ui-content">
+        <div>
+            <div class="block_right_inner" style="height: 45px;">
+            <div> </div>
+            <img id="red" src="../../../img/red-on.png" height="25" width="25">
+            <img id="amber" src="../../../img/amber-off.png" height="25" width="25">
+            <img id="green" src="../../../img/green-off.png" height="25" width="25">
+            <div id="divSvrStatus" style="height:0px; background:#fff; color:#000000"> </div>
+          </div>
+  			<div data-role="collapsibleset" >
+  			  <div data-role="collapsible" data-collapsed="false">
+  				<h3><font colour="red">Cabin Crew Information Summary (Flight: EK8976, From: Singapore, To: Paris)</font></h3>
+
+          <!-- <br>
+          <label id="FlightNoLabel">Flight No: </label>
+          <label for="favorite-animal" id="FlightNoTxt">EK </label>
+          <br>
+          <label id="FromLabel">From: </label>
+          <label id="FromTxt">EK </label>
+          <br>
+          <label id="ToLabel">Destination: </label>
+          <label id="ToTxt">EK </label>
+          <br>
+          <br> -->
+  			<table id="tab_securities1" class="mddTableGrid" width="100%" cellpadding="0">
+  				<tbody>
+
+  				<tr>
+  				<td width="90%" valign="top">
+  					<table id="tab_securities" class="mddTableGrid" width="100%">
+  						<tbody>
+  						<tr>
+  							<th colspan="15">Passenger Boarding Information</th>
+  						</tr>
+  						<tr>
+  							<th width=7%>Seq. No.</th>
+  							<th width=20%>Passenger</th>
+  							<th width=8%>Class</th>
+                <th width=8%>FlightNo</th>
+  							<th width=12%>Membership No.</th>
+                <th width=12%>Membership Status</th>
+                <th width=15%>Bagguage Status</th>
+                <th width=12%>Member Tier</th>
+                <th width=12%>Boarding Status</th>
+
+  						</tr>
+
+
+
+  						</tbody>
+  					</table>
+  				</td>
+
+  				</tr>
+  				</tbody>
+  			</table>
+
+  			</div>
+
+  		</div>
+
+  	</div>
+
+  </div>
+
+
+  </body>
+
+</html>
