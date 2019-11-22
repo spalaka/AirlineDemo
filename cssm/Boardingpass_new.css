@@ -11,9 +11,27 @@ body{
   background: #ffffff;
 }
 
-.wrapper{
+.wrapperBoarding{
   position: absolute;
   top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  width: 600px;
+}
+
+.wrapper2{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  width: 700px;
+}
+
+.wrapper{
+  position: absolute;
+  top: 35%;
   left: 50%;
   transform: translate(-50%,-50%);
   display: flex;
@@ -36,7 +54,7 @@ body{
 
 .wrapper .content{
   width: 70%;
-  background: #fff;
+  background: #6DA6B9;
   padding: 20px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -57,11 +75,11 @@ body{
 .wrapper .content .location p,
 .wrapper .content .info p{
   font-size: 10px;
-  color: #cecace;
+  color: #252525;
 }
 
 .wrapper .content .location .fas{
-  color: #f18053;
+  color: #D71A21;
   font-size: 32px
 }
 
@@ -78,13 +96,13 @@ body{
 
 .wrapper .qr_code:before,
 .wrapper .qr_code:after{
-  content: "";
+  /* content: "";
   position: absolute;
   right: -25px;
   width: 50px;
   height: 50px;
   background: #3C3F40;
-  border-radius: 50%;
+  border-radius: 50%; */
 }
 
 .wrapper .qr_code:before{
