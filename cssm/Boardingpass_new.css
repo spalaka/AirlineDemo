@@ -11,6 +11,14 @@ body{
   background: #ffffff;
 }
 
+.rcorners2 {
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+}
+
 .wrapperBoarding{
   position: absolute;
   top: 50%;
@@ -20,7 +28,7 @@ body{
   width: 600px;
 }
 
-.wrapper2{
+.wrapperProcessUI{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -31,7 +39,7 @@ body{
 
 .wrapper{
   position: absolute;
-  top: 35%;
+  top: 38%;
   left: 50%;
   transform: translate(-50%,-50%);
   display: flex;

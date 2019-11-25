@@ -170,6 +170,17 @@ var AirlineQueueConsumer = function (queueName, host, user, password, msgVPN) {
 
                         loadData(message);
                         message.acknowledge();
+
+                        var boardingTopic = message._destination.toString();
+                        if(boardingTopic.includes("Boarding")){
+                          recCount++;
+                          consumer.log("Topic: "+message._destination);
+                          calculatePercentage(recCount);
+                        }
+
+                        //calculatePercentage(recCount);
+
+
                     });
                     // Connect the message consumer
 

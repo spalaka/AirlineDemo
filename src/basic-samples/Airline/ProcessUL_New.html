@@ -24,8 +24,18 @@
     <script>
       var publisher = null;
       var boarding = null;
+      var scanBoardingPass = null;
       var baggage = null;
       var loyalty = null;
+      var counter = 0;
+      var passengerJSONObj = null;
+      var passenger1001 = "{\"\BoardingPassNo\"\: \"1001\"\, \"\Passenger\"\: \"\Faifi Mohammed\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK801\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Silver\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
+      var passenger1002 = "{\"\BoardingPassNo\"\: \"1002\"\, \"\Passenger\"\: \"\Steve Clark\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK802\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Silver\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
+      var passenger1003 = "{\"\BoardingPassNo\"\: \"1003\"\, \"\Passenger\"\: \"\Noura Mohammed\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK803\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Silver\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
+      var passenger1004 = "{\"\BoardingPassNo\"\: \"1004\"\, \"\Passenger\"\: \"\Reem Ahmad\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK804\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Silver\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
+      var passenger1005 = "{\"\BoardingPassNo\"\: \"1005\"\, \"\Passenger\"\: \"\Ayah Rashid\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK805\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Gold\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
+
+
       window.onload = function () {
         // Initialize factory with the most recent API defaults
         var factoryProps = new solace.SolclientFactoryProperties();
@@ -39,8 +49,18 @@
         // create the consumer, specifying name of the queue
         // subscriber = new QueueConsumer('tutorial/queue');
         publisher = new TopicPublisher('EK/Mediate/Passenger');
+        publisher.connect();
         baggage = new TopicPublisher('EK/Mediate/Baggage');
+        baggage.connect();
         boarding = new TopicPublisher('EK/Mediate/Boarding');
+        boarding.connect();
+        scanBoardingPass = new TopicPublisher('myair/Boarding/Boarding_Success/EK8976');
+        scanBoardingPass.connect();
+
+        if(counter==0){
+          passengerJSONObj = JSON.parse(passenger1001);
+          document.getElementById("passengerNameField").innerHTML = passengerJSONObj.Passenger;
+        }
 
       };
       function iframeloaded(){
@@ -49,26 +69,57 @@
       };
 
       function scheduledPassenger(){
-        publisher.connect();
+
         publisher.publish();
       }
 
       function loadBaggage(){
-        baggage.connect();
+
         baggage.publish();
       }
 
       function passengerBoarding(){
-        boarding.connect();
+
         boarding.publish();
       }
+
+      function scanPassengerBoarding(){
+
+        // scanBoardingPass.connect();
+        if(counter==0)counter++;
+        if(counter==1){
+          passengerJSONObj = JSON.parse(passenger1002);
+          document.getElementById("passengerNameField").innerHTML = passengerJSONObj.Passenger;
+          scanBoardingPass.publish()
+        }else if(counter==2){
+          passengerJSONObj = JSON.parse(passenger1003);
+          document.getElementById("passengerNameField").innerHTML = passengerJSONObj.Passenger;
+          scanBoardingPass.publish()
+        }else if(counter==3){
+          passengerJSONObj = JSON.parse(passenger1004);
+          document.getElementById("passengerNameField").innerHTML = passengerJSONObj.Passenger;
+          scanBoardingPass.publish()
+        }else if(counter==4){
+          passengerJSONObj = JSON.parse(passenger1005);
+          document.getElementById("passengerNameField").innerHTML = passengerJSONObj.Passenger;
+          scanBoardingPass.publish()
+        }else if(counter==5){
+          // passengerJSONObj = JSON.parse(passenger1005);
+          // document.getElementById("passengerNameField").innerHTML = passengerJSONObj.Passenger;
+          scanBoardingPass.publish()
+        }
+        // scanBoardingPass.connect();
+        // scanBoardingPass.publish();
+
+      }
+
     </script>
   </head>
 
   <body>
 
   <!--- page:sec_top20_vo -->
-  <div class="wrapper2">
+  <div class="wrapperProcessUI">
   <div data-role="page" id="home" data-theme="a" >
 
 
@@ -81,23 +132,13 @@
       <br/>
       <br/>
       <br/>
-      <input type="button" id="ScheduledPassenger" name="ScheduledPassenger" value="Scheduled Passenger" onclick="scheduledPassenger();" padding: 15px 32px;/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+      <input type="button" id="ScheduledPassenger" name="ScheduledPassenger" value="Checked in Passengers" onclick="scheduledPassenger();" padding: 15px 32px;/>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+      <br/><br/><br/>
 
-      <input type="button" id="PassengerBoarding" name="PassengerBoarding" value="Board Remaining Passenger" class="bt" onclick="passengerBoarding();"/>
-
+      <input type="button" id="ScanPassengerBoarding" name="ScanPassengerBoarding" value="Scan Boarding Pass" class="bt" onclick="scanPassengerBoarding();"/>
+        <input type="button" id="PassengerBoarding" name="PassengerBoarding" value="Board Remaining Passenger" class="bt" onclick="passengerBoarding();"/>
+      <br/><br/><br/>
 
       <input type="button" id="LoadBaggage" name="LoadBaggage" value="Load Baggage" class="bt" onclick="loadBaggage();"/>
 
@@ -117,7 +158,7 @@
                 <i class="fas fa-plane"></i>
               </div>
               <div class="item">
-                <h1>LFPG</h1>
+                <h1>DXB</h1>
                 <p>12:00PM Nov. 29 2019</p>
               </div>
             </div>
@@ -125,11 +166,11 @@
             <div class="info">
               <div class="item">
                 <h4>passenger</h4>
-                <p>Faifi Mahmood</p>
+                <p id="passengerNameField"></p>
               </div>
               <div class="item">
                 <h4>flight</h4>
-                <p>GF - 545</p>
+                <p id="flightNum">EK535</p>
               </div>
               <div class="item">
                 <h4>gate</h4>
@@ -137,7 +178,7 @@
               </div>
               <div class="item">
                 <h4>seat</h4>
-                <p>18W</p>
+                <p>1D</p>
               </div>
               <div class="item">
                 <h4>terminal</h4>

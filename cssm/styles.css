@@ -16,6 +16,32 @@ height:168px;
 float: center;
 }
 
+.divBox {
+	border:2px solid #b3b3b3;
+	/* background:#767455; */
+	/* width:300px; */
+	border-radius:10px;
+	/* align: center; */
+
+
+}
+/* .divBoxText {
+	position: relative;
+	-moz-outline-style: none;
+	outline: none;
+	overflow: hidden;
+	font-family: arial;
+	font-size: 15px;
+	font-weight: normal;
+	/* padding : 0; */
+	/* padding-top: 50px; */
+	/* padding-right: 30px; */
+	/* padding-bottom: 50px; */
+	/* padding-left: 20px; */
+	/* border-collapse: collapse; */
+	/* text-align: left; */
+} */
+
 .exchangeHeader
 {
 height:80px;

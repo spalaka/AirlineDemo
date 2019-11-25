@@ -205,7 +205,12 @@
     this.paintData = function (topic_string, payload) {
     	try {
         //alert("payload123sdfsfsdfsdfs " + payload);
+        var checkStr = "[";
+        if (payload.indexOf(checkStr)==0){
+          payload = payload.substring(1, payload.length-1);
+        }
         objJSON = $.parseJSON(payload);
+        // alert("objJSON: "+objJSON);
       //   	var tr_id = topic_string.replace(/\//g, '_');
       //   	var td_id = topic_string.replace(/\//g, '_');
 			// var str1 = tr_id.substring(0, 3);

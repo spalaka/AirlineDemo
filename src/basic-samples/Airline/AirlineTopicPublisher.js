@@ -123,6 +123,9 @@ var AirlineTopicPublisher = function (topicName) {
     // Publishes one message
     publisher.publish = function () {
         if (publisher.session !== null) {
+            alert(passenger1001);
+            var messageText = 'Sample Message';
+
             var messageText = 'Sample Message';
             var message = solace.SolclientFactory.createMessage();
             message.setDestination(solace.SolclientFactory.createTopicDestination(publisher.topicName));

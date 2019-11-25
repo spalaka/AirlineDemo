@@ -50,7 +50,7 @@ var TopicPublisher = function (topicName) {
     publisher.connect = function () {
         // extract params
         if (publisher.session !== null) {
-            publisher.log('Already connected and ready to publish messages.');
+            publisher.log('Already connected and ready to publish messages for.');
             return;
         }
         // var hosturl = document.getElementById('hosturl').value;
@@ -90,7 +90,7 @@ var TopicPublisher = function (topicName) {
         }
         // define session event listeners
         publisher.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
-            publisher.log('=== Successfully connected and ready to publish messages. ===');
+            publisher.log('=== Successfully connected and ready to publish messages. === '+topicName);
         });
         publisher.session.on(solace.SessionEventCode.CONNECT_FAILED_ERROR, function (sessionEvent) {
             publisher.log('Connection failed to the message router: ' + sessionEvent.infoStr +
@@ -121,6 +121,25 @@ var TopicPublisher = function (topicName) {
     publisher.publish = function () {
         if (publisher.session !== null) {
             var messageText = 'Sample Message';
+
+            if(counter==1){
+              messageText = passenger1001;
+              counter++;
+            }else if(counter==2){
+              messageText = passenger1002;
+              counter++;
+            }else if(counter==3){
+              messageText = passenger1003;
+              counter++;
+            }else if(counter==4){
+              messageText = passenger1004;
+              counter++;
+            }else if(counter==5){
+              messageText = passenger1005;
+              counter++;
+            }
+
+
             var message = solace.SolclientFactory.createMessage();
             message.setDestination(solace.SolclientFactory.createTopicDestination(publisher.topicName));
             message.setBinaryAttachment(messageText);
