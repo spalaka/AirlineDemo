@@ -34,8 +34,6 @@
       var passenger1003 = "{\"\BoardingPassNo\"\: \"1003\"\, \"\Passenger\"\: \"\Noura Mohammed\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK803\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Silver\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
       var passenger1004 = "{\"\BoardingPassNo\"\: \"1004\"\, \"\Passenger\"\: \"\Reem Ahmad\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK804\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Silver\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
       var passenger1005 = "{\"\BoardingPassNo\"\: \"1005\"\, \"\Passenger\"\: \"\Ayah Rashid\"\, \"\TravelClass\"\: \"\Economy\"\, \"\MembershipNo\"\: \"\LCEK805\"\, \"\MembershipStatus\"\: \"\Active\"\, \"\BaggageStatus\"\: \"\InProgress\"\, \"\Tier\"\: \"\Gold\"\, \"\FlightNo\"\: \"\EK535\"\, \"\BoardingStatus\"\: \"\Boarded\"\, \"\From\"\: \"\Singapore\"\, \"\Destination\"\: \"\Paris\"\}";
-
-
       window.onload = function () {
         // Initialize factory with the most recent API defaults
         var factoryProps = new solace.SolclientFactoryProperties();
@@ -47,7 +45,6 @@
         solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
 
         // create the consumer, specifying name of the queue
-        // subscriber = new QueueConsumer('tutorial/queue');
         publisher = new TopicPublisher('EK/Mediate/Passenger');
         publisher.connect();
         baggage = new TopicPublisher('EK/Mediate/Baggage');

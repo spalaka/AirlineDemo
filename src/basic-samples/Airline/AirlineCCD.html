@@ -63,11 +63,6 @@
         solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);
 
         // create the consumer, specifying name of the queue
-        // subscriber = new QueueConsumer('tutorial/queue');
-        // passenger = new AirlineQueueConsumer('PassengersQ', "ws://mr1u6o37qn544x.messaging.solace.cloud:80", "solace-cloud-client", "9flh068um60qj8okasiqi1se5q", "emirates-singapore");
-        // boarding = new AirlineQueueConsumer('BoardingQ', "ws://mr1u6o37qn544x.messaging.solace.cloud:80", "solace-cloud-client", "9flh068um60qj8okasiqi1se5q", "emirates-singapore");
-        // baggage = new AirlineQueueConsumer('BaggageQ', "ws://mr-1u6o37qn54ah.messaging.solace.cloud:80", "solace-cloud-client", "dac22v8f24390csbvf3rpsod7b", "emirates-paris");
-        // loyalty = new AirlineQueueConsumer('LoyaltyQ', "ws://mr1u6o37qn547p.messaging.solace.cloud:80", "solace-cloud-client", "osmk0npjbjt2n7fah4ha86pn66", "emirates-lowa");
         passenger = new AirlineQueueConsumer('CabinCrewQ', "ws://mr1u6o37qn544x.messaging.solace.cloud:80", "solace-cloud-client", "9flh068um60qj8okasiqi1se5q", "emirates-singapore");
         countdown();
       };

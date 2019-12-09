@@ -54,7 +54,7 @@ var TopicPublisher = function (topicName) {
             return;
         }
         // var hosturl = document.getElementById('hosturl').value;
-           var hosturl = "ws://mr1u6o37qn544x.messaging.solace.cloud:80";
+        var hosturl = "ws://mr1u6o37qn544x.messaging.solace.cloud:80";
         // check for valid protocols
         if (hosturl.lastIndexOf('ws://', 0) !== 0 && hosturl.lastIndexOf('wss://', 0) !== 0 &&
             hosturl.lastIndexOf('http://', 0) !== 0 && hosturl.lastIndexOf('https://', 0) !== 0) {
