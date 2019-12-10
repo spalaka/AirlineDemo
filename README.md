@@ -50,7 +50,8 @@ and microservice will listen to topic and processe the data to "myair/Passengers
 
 Instances: AWS Singapore, Google Iowa & Azure Paris
 
-Queues: 
+Queues:
+
 CabinCrewQ: All the topics which are used for the Airline functionality is mapped to this queue and 
 the AirlienCCD UI is listning to this queue to populate the data.
 
