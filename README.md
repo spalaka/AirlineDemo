@@ -1,7 +1,7 @@
 # AirlineDemo
 This demo was built based on the belwo technical components
 1. User Interface: HTML and JS
-2. Solace: Java Script api and websocket connection
+2. Solace Java Script api and websocket connection
 3. Microservices: Solace JCSMP API
 4. Striim: TQL
 
