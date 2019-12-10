@@ -1,0 +1,158 @@
+
+CREATE APPLICATION TestApp;
+
+CREATE OR REPLACE TYPE ProcessedDataOut1_Type  ( BoardingPassNo java.lang.String , 
+Passenger java.lang.String , 
+TravelClass java.lang.String , 
+MemberShipNo java.lang.String , 
+MemberShipStatus java.lang.String , 
+FlightNo java.lang.String , 
+BoardingStatus java.lang.String , 
+FromValue java.lang.String , 
+Destination java.lang.String , 
+Tier java.lang.String  
+ );
+
+CREATE OR REPLACE TYPE ProcessedDataOut2_Type  ( BoardingPassNo java.lang.String , 
+Passenger java.lang.String , 
+TravelClass java.lang.String , 
+MemberShipNo java.lang.String , 
+MemberShipStatus java.lang.String , 
+FlightNo java.lang.String , 
+BoardingStatus java.lang.String , 
+FromValue java.lang.String , 
+Destination java.lang.String , 
+Tier java.lang.String  
+ );
+
+CREATE OR REPLACE SOURCE SolaceListner USING JMSReader  ( 
+  ConnectionFactoryName: '/jms/cf/default',
+  AdditionalContextProperties: 'Solace_JMS_VPN=emirates-lowa',
+  UseDurableSubscription: false,
+  UserName: 'solace-cloud-client',
+  Ctx: 'com.solacesystems.jndi.SolJNDIInitialContextFactory',
+  UseExternalAcks: false,
+  UseJmsTransaction: true,
+  Passthru: false,
+  JmsAcknowledgementMode: 'SESSION_TRANSACTED',
+  Provider: 'tcp://mr1u6o37qn547p.messaging.solace.cloud:55555',
+  JmsTransactionSize: 255,
+  Password_encrypted: true,
+  crashonunsupportedmessagetype: true,
+  adapterName: 'JMSReader',
+  JmsTransactionTimeout: 1000,
+  UseMetadataInHeader: true,
+  MaxOutstandingAcks: 1000,
+  QueueName: 'LoyaltyMasterQ',
+  Password: 'nAamtm9rmYM2s3qAlhTZjfmtsFBrG6u8CLWFQZKrdNU=',
+  Password_encrypted: 'true'
+ ) 
+ PARSE USING JSONParser  ( 
+  handler: 'com.webaction.proc.JSONParser_1_0',
+  parserName: 'JSONParser'
+ ) 
+OUTPUT TO Analyzed ;
+
+CREATE OR REPLACE TYPE FFProcessed_Type  ( datagetBoardingPassNotextValue java.lang.String , 
+datagetPassengertextValue java.lang.String , 
+datagetTravelClasstextValue java.lang.String , 
+datagetMembershipNotextValue java.lang.String , 
+datagetMembershipStatustextValue java.lang.String , 
+datagetFlightNotextValue java.lang.String , 
+datagetBoardingStatustextValue java.lang.String , 
+datagetFromtextValue java.lang.String , 
+datagetDestinationtextValue java.lang.String , 
+datagetTiertextValueCASEWHENdatagetMembershipNotextValueLCEK802THENGOLDUpgradedELSESilverEND java.lang.Boolean  
+ );
+
+CREATE OR REPLACE TYPE ProcessDataOut2_Type  ( BoardingPassNo java.lang.String , 
+Passenger java.lang.String , 
+TravelClass java.lang.String , 
+MemberShipNo java.lang.String , 
+BaggageStatus java.lang.String , 
+MemberShipStatus java.lang.String , 
+FlightNo java.lang.String , 
+BoardingStatus java.lang.String , 
+FromValue java.lang.String , 
+Tier java.lang.String , 
+Destination java.lang.String  
+ );
+
+CREATE OR REPLACE STREAM ProcessDataOut2 OF ProcessDataOut2_Type;
+
+CREATE OR REPLACE TARGET SolacePublisher2 USING JMSWriter  ( 
+  ConnectionFactoryName: '/jms/cf/default',
+  AdditionalContextProperties: 'Solace_JMS_VPN=emirates-lowa',
+  UserName: 'solace-cloud-client',
+  Ctx: 'com.solacesystems.jndi.SolJNDIInitialContextFactory',
+  UseJmsTransaction: 'false',
+  Provider: 'tcp://mr1u6o37qn547p.messaging.solace.cloud:55555',
+  JmsTransactionSize: '100',
+  JmsMessageDeliveryMode: 'PERSISTENT',
+  Password_encrypted: 'true',
+  adapterName: 'JMSWriter',
+  JmsTransactionTimeout: '1000',
+  UseMetadataInHeader: 'true',
+  Topic: 'myair/Loyalty/Tier_Change/EK8976',
+  MessageType: 'TextMessage',
+  JmsMessageTtl: '-1',
+  Password: 'nAamtm9rmYM2s3qAlhTZjfmtsFBrG6u8CLWFQZKrdNU='
+ ) 
+FORMAT USING JSONFormatter  (   handler: 'com.webaction.proc.JSONFormatter',
+  formatterName: 'JSONFormatter',
+  jsonMemberDelimiter: '\n',
+  jsonobjectdelimiter: '\n',
+  EventsAsArrayOfJsonObjects: 'true'
+ ) 
+INPUT FROM ProcessDataOut2;
+
+CREATE OR REPLACE TYPE ProcessDataOut1_Type  ( BoardingPassNo java.lang.String , 
+Passenger java.lang.String , 
+TravelClass java.lang.String , 
+MemberShipNo java.lang.String , 
+BaggageStatus java.lang.String , 
+MemberShipStatus java.lang.String , 
+FlightNo java.lang.String , 
+BoardingStatus java.lang.String , 
+FromValue java.lang.String , 
+Tier java.lang.String , 
+Destination java.lang.String  
+ );
+
+CREATE OR REPLACE STREAM ProcessDataOut1 OF ProcessDataOut1_Type;
+
+CREATE OR REPLACE CQ FlyerDataProcess2 
+INSERT INTO ProcessDataOut2
+SELECT * FROM ProcessDataOut1
+MODIFY ( Tier = CASE
+		WHEN MemberShipNo == "LCEK802"
+			THEN "GOLD:Upgraded"
+		WHEN MemberShipNo == "LCEK805"
+			THEN "Platinum:Upgraded"
+		WHEN MemberShipNo == "LCEK806"
+			THEN "GOLD:Upgraded"
+		WHEN MemberShipNo == "LCEK803"
+			THEN "GOLD:Upgraded"
+			ELSE Tier
+	   	END
+	   );
+;
+
+CREATE OR REPLACE CQ FlyerDataProcess1 
+INSERT INTO ProcessDataOut1
+select 
+data.get('BoardingPassNo').textValue() as BoardingPassNo,
+data.get('Passenger').textValue() as Passenger,
+data.get('TravelClass').textValue() as TravelClass,
+data.get('MembershipNo').textValue() as MemberShipNo,
+data.get('BaggageStatus').textValue() as BaggageStatus,
+data.get('MembershipStatus').textValue() as MemberShipStatus,
+data.get('FlightNo').textValue() as FlightNo,
+data.get('BoardingStatus').textValue() as BoardingStatus,
+data.get('From').textValue() as FromValue,
+data.get('Tier').textValue() as Tier,
+data.get('Destination').textValue() as Destination
+from Analyzed;
+
+END APPLICATION TestApp;
+
