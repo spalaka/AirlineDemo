@@ -4,11 +4,11 @@ This demo was built based on the belwo technical components
 2. Solace: Java Script api and websocket connection
 3. Striim: TQL
 
-Functionality: Simulation of boarding, baggage processing and frequent flyer member tier upgrade.
+**Functionality:** Simulation of boarding, baggage processing and frequent flyer member tier upgrade.
 
-Technical Components:
+**Technical Components:**
 
-AirlineUI:
+**AirlineUI:**
 This folder contains the statuc UI project (There wont be any dynamic page rendering based on req/res)
 
 AirlineProcess html file loacted under "src/basic-samples/Airline" and you can provide the configuration 
@@ -19,7 +19,7 @@ and baggage loading.
 
 AirlineCCD (src/basic-samples/Airline) is the master UI to visualize the data loading
 
-AirlineDemoMicroServices:
+**AirlineDemoMicroServices:**
 This is based on JCSMP java code with gradle packaging.
 
 Technical Configurtion:
@@ -45,9 +45,9 @@ This service will keep listning to the topics and publishing the data to the top
 Ex: On click "Checked In Passengers" button, a message will be published to "EK/Mediate/Passenger" topic 
 and microservice will listen to topic and processe the data to "myair/Passengers/Checked_In/..".
 
-Solace Configuration:
+**Solace Configuration:**
 
-Instances: AWS Suingapore, Google Iowa & Azure Paris
+Instances: AWS Singapore, Google Iowa & Azure Paris
 
 Queues: 
 CabinCrewQ: All the topics which are used for the Airline functionality is mapped to this queue and 
@@ -59,7 +59,7 @@ myair/Loyalty/Tier_Change/>
 myair/Boarding/Boarding_Success/>
 myair/Baggage/Loaded/>
 
-Striim:
+**Striim:**
 This project will help you t do the Striim integration. Under the Striim folder you fill find the TQL file. 
 By importing the TQL file into Striim platform, you will see a predefind process to upgrade the loyalty passeger tiers. 
 
