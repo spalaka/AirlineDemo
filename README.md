@@ -24,7 +24,7 @@ This is based on JCSMP java code with gradle packaging.
 
 Technical Configurtion:
 Open SolaceUtility (under src/main/java) java file and provide the required connection details.
-Note: This whole demo runs event mesh, so please ensure there is a three node mesh available to 
+Note: This whole demo runs on event mesh, so please ensure there is a three node mesh available to 
 provide all the details.
 
 Data Files:
