@@ -1,7 +1,7 @@
 # AirlineDemo
-This demo was built based on the belwo technical components
+This demo was built based on the below technical components
 1. User Interface: HTML and JS
-2. Solace Java Script api and websocket connection
+2. Solace Java Script API and Websocket connection
 3. Microservices: Solace JCSMP API
 4. Striim: TQL
 
@@ -25,8 +25,6 @@ This is based on JCSMP java code with gradle packaging.
 
 Technical Configurtion:
 Open SolaceUtility (under src/main/java) java file and provide the required connection details.
-Note: This whole demo runs on event mesh, so please ensure there is a three node mesh available to 
-provide all the details.
 
 Data Files:
 All the JSON data files are provided under resources folder. With the same structue, you can add more records 
